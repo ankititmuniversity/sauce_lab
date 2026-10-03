@@ -1,0 +1,11 @@
+/.project/
+/.classpath/
+/.settings/
+
+/test-output/
+/target/
+/logs/
+/reports/
+/screenshots/
+/allure-results/
+
