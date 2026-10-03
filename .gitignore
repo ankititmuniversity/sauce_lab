@@ -1,11 +1,19 @@
-/.project/
-/.classpath/
-/.settings/
-
-/test-output/
+# Build output
 /target/
-/logs/
+/test-output/
 /reports/
+/logs/
 /screenshots/
 /allure-results/
 
+# IDE metadata
+/.classpath
+/.project
+/.settings/
+
+# OS-specific
+.DS_Store
+Thumbs.db
+
+# Java compiled classes
+*.class
