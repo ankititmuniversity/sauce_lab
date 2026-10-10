@@ -1,5 +1,7 @@
 package retry;
 
+import java.awt.Desktop;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -17,6 +19,7 @@ import com.aventstack.extentreports.ExtentTest;
 import com.aventstack.extentreports.Status;
 
 import base.BaseTest;
+import io.qameta.allure.Allure;
 import utils.DriverManager;
 import utils.ExtentReportsManager;
 import utils.ExtentTestManager;
@@ -28,7 +31,15 @@ public class TestListener implements ITestListener {
 	}
 	public void onFinish(ITestContext context) {
 		ExtentReportsManager.getInstance().flush();
+		//		String reportPath = System.getProperty("user.dir")+"/reports/ExtentReport.html";
+		//		File reportFile = new File(reportPath);
+		//		try{
+		//			Desktop.getDesktop().browse(reportFile.toURI());;
+		//		}catch(IOException e) {
+		//			e.printStackTrace();
+		//		})
 	}
+
 	public void onTestStart(ITestResult result) {
 		ExtentTest test = ExtentReportsManager.getInstance().createTest(result.getMethod().getMethodName());
 		ExtentTestManager.setExtentTest(test);
@@ -50,6 +61,11 @@ public class TestListener implements ITestListener {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+
+//		byte[] screenshotBytes = Takescreenshot.takeShotAsBytes(driver);
+//		Allure.addAttachment("Failure Screenshot", new ByteArrayInputStream(screenshotBytes));
+		
+		//Takescreenshot.takeShotAsBytes(driver);
 
 
 		ExtentTestManager.removeExtentTest();

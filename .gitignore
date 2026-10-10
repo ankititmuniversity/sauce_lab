@@ -5,6 +5,7 @@
 /logs/
 /screenshots/
 /allure-results/
+/allure-results/
 
 # IDE metadata
 /.classpath
