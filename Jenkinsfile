@@ -8,11 +8,15 @@ pipeline {
 
     stages {
         stage('Checkout') {
-            steps { checkout scm }
+            steps {
+                checkout scm
+            }
         }
 
         stage('Test') {
-            steps { sh 'mvn clean test' }
+            steps {
+                sh 'mvn clean test'
+            }
         }
 
         stage('Allure Report') {
@@ -28,6 +32,7 @@ pipeline {
                     reportDir: 'reports/ExtentReport',
                     reportFiles: 'ExtentReport.html',
                     reportName: 'Extent Report',
+                    allowMissing: false,
                     keepAll: true,
                     alwaysLinkToLastBuild: true
                 ])
@@ -37,15 +42,15 @@ pipeline {
 
     post {
         always {
-            archiveArtifacts artifacts: '''
-                reports/ExtentReport/**,
-                target/allure-results/**,
-                test-output/**,
-                logs/**
-            ''', allowEmptyArchive: true
+            archiveArtifacts artifacts: 'reports/ExtentReport/**, target/allure-results/**, test-output/**, logs/**',
+                             allowEmptyArchive: true
             cleanWs()
         }
-        success { echo "Pipeline Succeeded!" }
-        failure { echo "Pipeline Failed! Check reports." }
+        success {
+            echo 'Pipeline Succeeded!'
+        }
+        failure {
+            echo 'Pipeline Failed! Check reports.'
+        }
     }
 }
