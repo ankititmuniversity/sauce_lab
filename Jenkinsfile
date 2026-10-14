@@ -1,33 +1,35 @@
 pipeline {
-    agent any
-
-    tools {
-        maven 'MAVEN_HOME'
-        jdk 'JAVA_HOME'
+    agent {
+        docker {
+            image 'maven:3.9.4-eclipse-temurin-17'
+            args '-v /root/.m2:/root/.m2'
+        }
     }
 
     stages {
         stage('Checkout') {
-            steps {
-                checkout scm
-            }
+            steps { checkout scm }
         }
 
         stage('Test') {
+            steps { sh 'mvn clean test' }
+        }
+
+        stage('Allure Report') {
             steps {
-                echo "Running Selenium + TestNG tests"
-                bat 'mvn clean test -Dheadless=true'
+                allure includeProperties: false,
+                       results: [[path: 'allure-results/']]
             }
         }
+
         stage('Extent Report') {
             steps {
                 publishHTML([
-                    allowMissing: true,
-                    alwaysLinkToLastBuild: true,
-                    keepAll: true,
-                    reportDir: 'reports',
+                    reportDir: 'reports/ExtentReport',
                     reportFiles: 'ExtentReport.html',
-                    reportName: 'Extent_Report'
+                    reportName: 'Extent Report',
+                    keepAll: true,
+                    alwaysLinkToLastBuild: true
                 ])
             }
         }
@@ -36,21 +38,14 @@ pipeline {
     post {
         always {
             archiveArtifacts artifacts: '''
-                reports/**,
-                target/surefire-reports/**,
+                reports/ExtentReport/**,
+                target/allure-results/**,
                 test-output/**,
                 logs/**
             ''', allowEmptyArchive: true
-
             cleanWs()
         }
-
-        success {
-            echo "Pipeline Succeeded!"
-        }
-
-        failure {
-            echo "Pipeline Failed! Check the reports."
-        }
+        success { echo "Pipeline Succeeded!" }
+        failure { echo "Pipeline Failed! Check reports." }
     }
 }
