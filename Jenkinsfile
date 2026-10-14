@@ -1,8 +1,7 @@
 pipeline {
     agent {
         docker {
-            image 'maven:3.9.4-eclipse-temurin-17'
-            args '-v /root/.m2:/root/.m2'
+            image 'maven:3.9.4-eclipse-temurin-21'
         }
     }
 
@@ -42,8 +41,14 @@ pipeline {
 
     post {
         always {
-            archiveArtifacts artifacts: 'reports/ExtentReport/**, target/allure-results/**, test-output/**, logs/**',
-                             allowEmptyArchive: true
+            // Ensure workspace context is available
+            archiveArtifacts artifacts: '''
+                reports/ExtentReport/**,
+                target/allure-results/**,
+                test-output/**,
+                logs/**
+            ''', allowEmptyArchive: true
+
             cleanWs()
         }
         success {
