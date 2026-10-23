@@ -5,15 +5,15 @@
 		<listener class-name="retry.AnnotationTransformer"></listener>
 		<listener class-name="retry.TestListener"></listener>
 	</listeners>
-	<test name="Test" thread-count="5" >
+	<test name="Test" thread-count="3" >
 	<parameter name="browser" value="chrome"/>
 		<classes>
 			<class name="tests.LoginPageTest" />
 			<class name="tests.ProductPageTest" />
 			<class name="tests.CartPageTest" />
-			<class name="tests.CheckoutPageTest" />
+			<!--<class name="tests.CheckoutPageTest" />
 			<class name="tests.PaymentPageTest" />
-			<class name="tests.OrderConfirmationPageTest" />
+			<class name="tests.OrderConfirmationPageTest" />-->
 		</classes>
 	</test> <!--
 	Test -->

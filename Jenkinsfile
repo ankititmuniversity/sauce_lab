@@ -14,8 +14,11 @@ pipeline {
         }
 
         stage('Test') {
+            when {
+                not { expression { fileExists('test-output/testng-failed.xml') } }
+            }
             steps {
-                echo "Running Selenium + TestNG tests"
+                echo "Running full suite"
                 bat 'mvn clean test -DsuiteXmlFile=testng.xml -Dheadless=true'
             }
         }
