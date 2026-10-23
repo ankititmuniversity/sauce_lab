@@ -1,23 +1,31 @@
 package utils;
 
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.firefox.FirefoxOptions;
-import io.github.bonigarcia.wdm.WebDriverManager;
 
-public class DriverManager {
-	private static final ThreadLocal<WebDriver> driver = new ThreadLocal<>();
+/** Holds one WebDriver per thread so parallel tests never share a browser. */
+public final class DriverManager {
 
-	public static WebDriver getDriver() {
-		return driver.get();
-	}
+    private static final ThreadLocal<WebDriver> DRIVER = new ThreadLocal<>();
 
-	public static void setDriver(WebDriver webDriver) {
-		driver.set(webDriver);
-	}
-	public static void removeDiver() {        
-		driver.remove();        
-	}    
+    private DriverManager() {
+    }
+
+    public static WebDriver getDriver() {
+        return DRIVER.get();
+    }
+
+    public static void setDriver(WebDriver driver) {
+        DRIVER.set(driver);
+    }
+
+    public static void quitDriver() {
+        WebDriver driver = DRIVER.get();
+        if (driver != null) {
+            try {
+                driver.quit();
+            } finally {
+                DRIVER.remove();
+            }
+        }
+    }
 }

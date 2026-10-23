@@ -31,13 +31,13 @@ public class TestListener implements ITestListener {
 	}
 	public void onFinish(ITestContext context) {
 		ExtentReportsManager.getInstance().flush();
-		//		String reportPath = System.getProperty("user.dir")+"/reports/ExtentReport.html";
-		//		File reportFile = new File(reportPath);
-		//		try{
-		//			Desktop.getDesktop().browse(reportFile.toURI());;
-		//		}catch(IOException e) {
-		//			e.printStackTrace();
-		//		})
+				String reportPath = System.getProperty("user.dir")+"/reports/ExtentReport.html";
+				File reportFile = new File(reportPath);
+				try{
+					Desktop.getDesktop().browse(reportFile.toURI());;
+				}catch(IOException e) {
+					e.printStackTrace();
+				};
 	}
 
 	public void onTestStart(ITestResult result) {

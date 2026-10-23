@@ -1,19 +1,33 @@
 pipeline {
-    agent {
-        docker {
-            image 'maven:3.9.4-eclipse-temurin-21'
-            args '-v /c/Users/ankit/.jenkins/workspace/SauceLabPipelineUsingDocker:/workspace'
-            reuseNode true
-        }
+    agent any
+
+    tools {
+        maven 'MAVEN_HOME'
+        jdk 'JAVA_HOME'
     }
 
     stages {
         stage('Checkout') {
-            steps { checkout scm }
+            steps {
+                checkout scm
+            }
         }
 
         stage('Test') {
-            steps { sh 'mvn clean test' }
+            steps {
+                echo "Running Selenium + TestNG tests"
+                bat 'mvn clean test -DsuiteXmlFile=testng.xml -Dheadless=true'
+            }
+        }
+
+        stage('Rerun Failed Tests') {
+            when {
+                expression { fileExists('test-output/testng-failed.xml') }
+            }
+            steps {
+                echo "Re-running failed tests only"
+                bat 'mvn test -DsuiteXmlFile=test-output/testng-failed.xml -Dheadless=true'
+            }
         }
 
         stage('Allure Report') {
@@ -26,12 +40,12 @@ pipeline {
         stage('Extent Report') {
             steps {
                 publishHTML([
-                    reportDir: 'reports/ExtentReport',
-                    reportFiles: 'ExtentReport.html',
-                    reportName: 'Extent Report',
-                    allowMissing: false,
+                    allowMissing: true,
+                    alwaysLinkToLastBuild: true,
                     keepAll: true,
-                    alwaysLinkToLastBuild: true
+                    reportDir: 'reports',
+                    reportFiles: 'ExtentReport.html',
+                    reportName: 'Extent_Report'
                 ])
             }
         }
@@ -39,11 +53,22 @@ pipeline {
 
     post {
         always {
-            script {
-                archiveArtifacts artifacts: 'reports/ExtentReport/**, target/allure-results/**, test-output/**, logs/**',
-                                 allowEmptyArchive: true
-                cleanWs()
-            }
+            archiveArtifacts artifacts: '''
+                reports/**,
+                target/surefire-reports/**,
+                test-output/**,
+                logs/**
+            ''', allowEmptyArchive: true
+
+            cleanWs()
+        }
+
+        success {
+            echo "Pipeline Succeeded!"
+        }
+
+        failure {
+            echo "Pipeline Failed! Check the reports."
         }
     }
 }
