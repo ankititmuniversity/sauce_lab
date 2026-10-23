@@ -16,7 +16,7 @@ public final class DriverFactory {
         String mode = System.getProperty("execution", "local").toLowerCase();
 
         // Read headless flag (default = false)
-        boolean headless = Boolean.parseBoolean(System.getProperty("headless", "false"));
+        boolean headless = Boolean.parseBoolean(System.getProperty("headless", "true"));
 
         // Build Chrome options
         ChromeOptions options = new ChromeOptions();

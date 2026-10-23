@@ -5,8 +5,8 @@
 		<listener class-name="retry.AnnotationTransformer"></listener>
 		<listener class-name="retry.TestListener"></listener>
 	</listeners>
-	<test name="Test" parallel ="classes" thread-count="3" >
-	<parameter name="browser" value="edge"/>
+	<test name="Test" thread-count="5" >
+	<parameter name="browser" value="chrome"/>
 		<classes>
 			<class name="tests.LoginPageTest" />
 			<class name="tests.ProductPageTest" />
