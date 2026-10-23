@@ -29,7 +29,7 @@ public class LoginPageTest extends BaseTest {
 	@DataProvider(name="credentials")
 	public String[][] getData(){
 		String [][] data = new String[1][2];
-		data[0][0]="standard_user";
+		data[0][0]="standard_user1";
 		data[0][1]="secret_sauce";	
 		
 //		data[1][0]="locked_out_user";
