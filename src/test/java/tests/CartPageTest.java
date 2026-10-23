@@ -23,7 +23,7 @@ public class CartPageTest extends BaseTest {
 		loginPage.clickLoginBtn();  
 
 		productPage = new ProductPage(DriverManager.getDriver());
-		String expectedTitle = "Products";
+		String expectedTitle = "Products1";
 		String actualTitle = productPage.getPageTitle();
 		Assert.assertEquals(expectedTitle, actualTitle);
 
