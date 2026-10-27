@@ -19,7 +19,7 @@ pipeline {
 
         stage('Test') {
             when {
-                not { expression { fileExists('test-output/testng-failed.xml') } }
+                not { expression { fileExists('target/surefire-reports/testng-failed.xml') } }
             }
             steps {
                 echo "Running full suite"
@@ -29,7 +29,7 @@ pipeline {
 
         stage('Rerun Failed Tests') {
             when {
-                expression { fileExists('test-output/testng-failed.xml') }
+                expression { fileExists('target/surefire-reports/testng-failed.xml') }
             }
             steps {
                 echo "Re-running failed tests only"
