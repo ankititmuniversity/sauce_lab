@@ -33,7 +33,7 @@ pipeline {
             }
             steps {
                 echo "Re-running failed tests only"
-                bat "mvn test -DsuiteXmlFile=test-output/testng-failed.xml -Dheadless=true -Denv=${params.ENV}"
+                bat "mvn test -DsuiteXmlFile=target/surefire-reports/testng-failed.xml -Dheadless=true -Denv=${params.ENV}"
             }
         }
 
