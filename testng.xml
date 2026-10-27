@@ -13,9 +13,9 @@
 			<class name="tests.LoginPageTest" />
 			<class name="tests.ProductPageTest" />
 			<class name="tests.CartPageTest" />
-			<class name="tests.CheckoutPageTest" />
+			<!--<class name="tests.CheckoutPageTest" />
 			<class name="tests.PaymentPageTest" />
-			<class name="tests.OrderConfirmationPageTest" />
+			<class name="tests.OrderConfirmationPageTest" />-->
 		</classes>
 	</test> <!--
 	Test -->

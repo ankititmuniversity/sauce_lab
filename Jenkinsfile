@@ -3,6 +3,7 @@ pipeline {
     
     parameters {
         choice(name: 'ENV', choices: ['sit', 'uat', 'prod'], description: 'Select environment to run tests')
+        choice(name: 'EXECUTION', choices: ['local', 'remote'], description: 'Select execution mode')
     }
 
     tools {
@@ -23,7 +24,7 @@ pipeline {
             }
             steps {
                 echo "Running full suite"
-                bat "mvn clean test -DsuiteXmlFile=testng.xml -Dheadless=true -Denv=${params.ENV}"
+                bat "mvn clean test -DsuiteXmlFile=testng.xml -Dheadless=true -Denv=${params.ENV} -Dexecution=${params.EXECUTION}"
             }
         }
 
@@ -33,7 +34,7 @@ pipeline {
             }
             steps {
                 echo "Re-running failed tests only"
-                bat "mvn test -DsuiteXmlFile=target/surefire-reports/testng-failed.xml -Dheadless=true -Denv=${params.ENV}"
+                bat "mvn test -DsuiteXmlFile=target/surefire-reports/testng-failed.xml -Dheadless=true -Denv=${params.ENV} -Dexecution=${params.EXECUTION}"
             }
         }
 
