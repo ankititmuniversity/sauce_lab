@@ -20,6 +20,7 @@ import com.aventstack.extentreports.Status;
 
 import base.BaseTest;
 import io.qameta.allure.Allure;
+import utils.DriverFactoryImpl;
 import utils.DriverManager;
 import utils.ExtentReportsManager;
 import utils.ExtentTestManager;

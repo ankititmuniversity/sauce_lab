@@ -7,8 +7,9 @@ import java.util.Properties;
 public class ConfigReader {
     private static Properties prop;
     static {
+    	String env = System.getProperty("env","sit");
         try (FileInputStream fis = new FileInputStream(
-            System.getProperty("user.dir") + "/src/test/resources/config.properties")) {
+            System.getProperty("user.dir") + "/src/test/resources/"+env+".properties")) {
             prop = new Properties();
             prop.load(fis);
         } catch (IOException e) {
