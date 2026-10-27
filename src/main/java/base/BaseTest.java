@@ -18,12 +18,15 @@ public class BaseTest {
 	protected static final Logger logger = LogManager.getLogger(BaseTest.class);
 	private final DriverFactoryImpl factory = new DriverFactoryImpl();
 
-	@Parameters({"browser","headless","execution"})
+	
 	@BeforeMethod(alwaysRun = true)
-	public void setUp(@Optional("chrome") String browser,@Optional("false") String headless,@Optional("local") String execution) throws MalformedURLException {
+	public void setUp() throws MalformedURLException {
 		logger.info("Driver setup started");
-
-		WebDriver driver = factory.createDriver(browser,Boolean.parseBoolean(headless),execution);
+		String browser = System.getProperty("browser","chrome").toLowerCase();
+		boolean isHeadless  = Boolean.parseBoolean(System.getProperty("headless","false"));
+		String execution = System.getProperty("execution","local").toLowerCase();
+		
+		WebDriver driver = factory.createDriver(browser,isHeadless,execution);
 		DriverManager.setDriver(driver);
 
 		logger.info("Thread ID: {} running {}", Thread.currentThread().getId(),this.getClass().getSimpleName());
