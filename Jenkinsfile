@@ -23,7 +23,7 @@ pipeline {
             }
             steps {
                 echo "Running full suite"
-                bat 'mvn clean test -DsuiteXmlFile=testng.xml -Dheadless=true -Denv=${params.ENV}'
+                bat "mvn clean test -DsuiteXmlFile=testng.xml -Dheadless=true -Denv=${params.ENV}"
             }
         }
 
@@ -33,7 +33,7 @@ pipeline {
             }
             steps {
                 echo "Re-running failed tests only"
-                bat 'mvn test -DsuiteXmlFile=test-output/testng-failed.xml -Dheadless=true -Denv=${params.ENV}'
+                bat "mvn test -DsuiteXmlFile=test-output/testng-failed.xml -Dheadless=true -Denv=${params.ENV}"
             }
         }
 
