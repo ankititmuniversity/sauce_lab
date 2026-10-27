@@ -20,7 +20,7 @@ public class ProductPageTest extends BaseTest {
 		loginPage.clickLoginBtn();  
 
 		productPage = new ProductPage(DriverManager.getDriver());
-		String expectedTitle = "Products1";
+		String expectedTitle = "Products";
 		String actualTitle = productPage.getPageTitle();
 		Assert.assertEquals(expectedTitle, actualTitle);
 
